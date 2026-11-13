@@ -2,5 +2,27 @@
   "HomePage": {
     "title": "Bienvenido a nuestro sitio web.",
     "description": "Esta página se abre automáticamente en el idioma de tu computadora."
+  },
+  "Admin": {
+    "Login": {
+      "title": "Acceso al panel",
+      "description": "Usa tu email y contraseña para acceder al área de administración.",
+      "emailLabel": "Email",
+      "emailPlaceholder": "tu@ejemplo.com",
+      "passwordLabel": "Contraseña",
+      "passwordPlaceholder": "Tu contraseña",
+      "submit": "Iniciar sesión",
+      "submitting": "Iniciando sesión…",
+      "invalidFields": "Introduce un email válido y tu contraseña.",
+      "invalidCredentials": "Email o contraseña incorrectos.",
+      "unknownError": "Algo salió mal. Inténtalo de nuevo.",
+      "backToSite": "Volver al sitio web"
+    },
+    "Dashboard": {
+      "title": "Panel de administración",
+      "description": "Sesión iniciada como {email}.",
+      "signOut": "Cerrar sesión",
+      "emptyState": "Este es el punto de partida para las pantallas de administración."
+    }
   }
 }

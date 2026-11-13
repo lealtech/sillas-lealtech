@@ -2,5 +2,27 @@
   "HomePage": {
     "title": "Welcome to our website.",
     "description": "This page automatically opens in your computer's language."
+  },
+  "Admin": {
+    "Login": {
+      "title": "Admin sign in",
+      "description": "Use your email and password to access the admin area.",
+      "emailLabel": "Email",
+      "emailPlaceholder": "you@example.com",
+      "passwordLabel": "Password",
+      "passwordPlaceholder": "Your password",
+      "submit": "Sign in",
+      "submitting": "Signing in…",
+      "invalidFields": "Enter a valid email and your password.",
+      "invalidCredentials": "Invalid email or password.",
+      "unknownError": "Something went wrong. Please try again.",
+      "backToSite": "Back to the website"
+    },
+    "Dashboard": {
+      "title": "Admin dashboard",
+      "description": "Signed in as {email}.",
+      "signOut": "Sign out",
+      "emptyState": "This is the starting point for the admin screens."
+    }
   }
 }

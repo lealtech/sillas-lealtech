@@ -10,6 +10,7 @@ export default defineConfig({
     alias: {
       "next/link": "next/link.js",
       "next/navigation": "next/navigation.js",
+      "next/server": "next/server.js",
     },
   },
   test: {
@@ -22,7 +23,7 @@ export default defineConfig({
     server: {
       deps: {
         // Let Vite resolve next-intl's `next/*` imports (and the aliases above).
-        inline: ["next-intl"],
+        inline: ["next-intl", "next-auth", "@auth/core"],
       },
     },
     coverage: {

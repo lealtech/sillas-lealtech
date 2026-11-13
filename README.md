@@ -31,7 +31,11 @@ npm run test:coverage # run once with a coverage report in ./coverage
 npm run test:e2e      # run Playwright end-to-end tests
 ```
 
-Unit test files use the `*.test.ts` / `*.test.tsx` suffix and can live next to the code they test (for example `app/[locale]/page.test.tsx`). Playwright specs are kept in `tests/` and are excluded from Vitest.
+Unit test files use the `*.test.ts` / `*.test.tsx` suffix and can live next to the code they test (for example `app/[locale]/page.test.tsx`). Playwright specs are kept in `tests/` and are excluded from Vitest. `playwright.config.ts` starts `npm run dev` automatically and runs the suite against `http://localhost:3000`. The admin auth spec needs the database seeded with the credentials from `.env`; `tests/global-setup.ts` runs `npm run admin:create` before the suite.
+
+```bash
+npx playwright test --project=chromium
+```
 
 ## Internationalization
 
@@ -44,6 +48,25 @@ The project uses [next-intl](https://next-intl.dev) with locale-prefixed routes:
 When a visitor opens `/` (or any unprefixed page), `proxy.ts` inspects the browser's `Accept-Language` header and redirects to the best supported locale. Unsupported languages fall back to English. Users can switch languages from the links on the home page.
 
 Translations live in `messages/{en,pt,es}.json`. Routing, request config and navigation helpers are in `i18n/`. To add a language, add it to `routing.ts`, create a matching messages file and add the corresponding route label.
+
+## Admin area and authentication
+
+The admin screens live under `app/[locale]/admin` and are available at `/{locale}/admin` (for example `/pt/admin`). Authentication uses [Auth.js (NextAuth v5)](https://authjs.dev) with the Credentials provider (email + password) and Prisma as the user store:
+
+- `auth.config.ts` — shared, database-free config (JWT sessions, 8-hour lifetime, token callbacks) used by the proxy.
+- `auth.ts` — Auth.js instance with the Credentials provider and the Prisma adapter.
+- `app/api/auth/[...nextauth]/route.ts` — Auth.js route handlers.
+- `app/[locale]/admin/login` — public login screen (the only admin route that does not require a session).
+- `app/[locale]/admin/(protected)` — dashboard and any future admin screens. Its layout verifies the session on the server and redirects to the localized login page when absent.
+- `proxy.ts` — combines the next-intl middleware with an early auth check so anonymous visitors are redirected before the admin segment renders.
+
+Sessions are JWTs signed and encrypted with `AUTH_SECRET` and stored in an HttpOnly cookie. The Credentials provider only supports JWT sessions, so the Prisma `Session` table is not used yet; it is part of the standard Auth.js schema and is ready for OAuth providers.
+
+Create or update the admin account with the variables in `.env` (`ADMIN_EMAIL`, `ADMIN_PASSWORD`, optional `ADMIN_NAME`):
+
+```bash
+npm run admin:create
+```
 
 ## Database (development only)
 
